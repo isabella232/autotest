@@ -559,7 +559,7 @@ def _installtest(job, url):
 
     # Bail if the test is already installed
     group_dir = os.path.join(job.testdir, "download", group)
-    if os.path.exists(os.path.join(group_dir, name)):
+    if job.cache and os.path.exists(os.path.join(group_dir, name)):
         return (group, name)
 
     # If the group directory is missing create it and add
