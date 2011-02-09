@@ -114,6 +114,13 @@ def main_without_exception_handling():
     parser.add_option('--test', help='Indicate that scheduler is under ' +
                       'test and should use dummy autoserv and no parsing',
                       action='store_true')
+    parser.set_defaults(write_pidfile=True)
+    parser.add_option("--write-pidfile",
+                      help="write a .pid file (default)",
+                      dest="write_pidfile", action="store_true")
+    parser.add_option("--no-write-pidfile",
+                      help="do not write a .pid file",
+                      dest="write_pidfile", action="store_false")
     (options, args) = parser.parse_args()
     if len(args) != 1:
         parser.print_usage()
@@ -154,6 +161,12 @@ def main_without_exception_handling():
     server = status_server.StatusServer()
     server.start()
 
+    if options.write_pidfile:
+        if utils.program_is_alive(PID_FILE_PREFIX):
+            logging.critical("monitor_db already running, aborting!")
+            sys.exit(1)
+        utils.write_pid(PID_FILE_PREFIX)
+
     try:
         initialize()
         dispatcher = Dispatcher()
@@ -189,11 +202,6 @@ def handle_sigint(signum, frame):
 def initialize():
     logging.info("%s> dispatcher starting", time.strftime("%X %x"))
     logging.info("My PID is %d", os.getpid())
-
-    if utils.program_is_alive(PID_FILE_PREFIX):
-        logging.critical("monitor_db already running, aborting!")
-        sys.exit(1)
-    utils.write_pid(PID_FILE_PREFIX)
 
     if _testing_mode:
         global_config.global_config.override_config_value(
