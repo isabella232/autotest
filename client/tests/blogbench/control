@@ -1,0 +1,10 @@
+AUTHOR = "Tommi Virtanen <tommi.virtanen@dreamhost.com>"
+NAME = "blogbench"
+TEST_CATEGORY = "Stress"
+TEST_CLASS = "General"
+TEST_TYPE = "client"
+TIME = 'MEDIUM'
+DOC="""
+Blogbench is a file system benchmark.
+"""
+job.run_test('blogbench')
