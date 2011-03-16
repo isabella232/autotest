@@ -1,0 +1,10 @@
+AUTHOR = "Tommi Virtanen <tommi.virtanen@dreamhost.com>"
+NAME = "direct_io_test"
+TEST_CATEGORY = "Functional"
+TEST_CLASS = "General"
+TEST_TYPE = "client"
+TIME = 'SHORT'
+DOC="""
+direct_io_test tests direct file I/O.
+"""
+job.run_test('direct_io_test')
