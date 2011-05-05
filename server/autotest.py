@@ -811,7 +811,10 @@ class log_collector(object):
         # Copy all dirs in default to results_dir
         try:
             self.host.get_file(self.client_results_dir + '/',
-                               self.server_results_dir, preserve_symlinks=True)
+                               self.server_results_dir,
+                               preserve_symlinks=True,
+                               preserve_perm=False,
+                               )
         except Exception:
             # well, don't stop running just because we couldn't get logs
             e_msg = "Unexpected error copying test result logs, continuing ..."
