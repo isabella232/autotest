@@ -130,7 +130,10 @@ def collect_uncollected_logs(host):
                 if hostname == host.hostname:
                     logging.info("Retrieving logs from %s:%s into %s",
                                  hostname, remote_path, local_path)
-                    host.get_file(remote_path + "/", local_path + "/")
+                    host.get_file(remote_path + "/", local_path + "/",
+                                  preserve_symlinks=True,
+                                  preserve_perm=False,
+                                  )
         except Exception, e:
             logging.warning("Error while trying to collect stranded "
                             "Autotest client logs: %s", e)
