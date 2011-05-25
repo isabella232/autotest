@@ -1,0 +1,10 @@
+AUTHOR = "Tommi Virtanen <tommi.virtanen@dreamhost.com>"
+NAME = "pjd_fstest"
+TEST_CATEGORY = "Functional"
+TEST_CLASS = "General"
+TEST_TYPE = "client"
+TIME = 'MEDIUM'
+DOC="""
+pjd-fstest is a filesystem POSIX compliance test suite.
+"""
+job.run_test('pjd_fstest')

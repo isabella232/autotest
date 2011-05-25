@@ -1031,8 +1031,8 @@ class base_job(object):
         else:
             root = self.clientdir
         self._tmpdir = readwrite_dir(root, 'tmp')
-        self._testdir = readwrite_dir(root, 'tests')
-        self._site_testdir = readwrite_dir(root, 'site_tests')
+        self._testdir = readonly_dir(root, 'tests')
+        self._site_testdir = readonly_dir(root, 'site_tests')
 
         # various server-specific directories
         if self.serverdir:

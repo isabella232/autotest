@@ -2,6 +2,8 @@
 #
 # autotest <control file> - run the autotest control file specified.
 #
+from gevent import monkey; monkey.patch_all()
+
 import os, sys
 import common
 from optparse import OptionParser

@@ -140,6 +140,8 @@ class base_server_job(base_job.base_job):
 
     _STATUS_VERSION = 1
 
+    cache = True
+
     def __init__(self, control, args, resultdir, label, user, machines,
                  client=False, parse_job='',
                  ssh_user='root', ssh_port=22, ssh_pass='',

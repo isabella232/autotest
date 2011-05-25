@@ -17,7 +17,7 @@
 #       tmpdir          eg. tmp/<tempname>_<testname.tag>
 
 import fcntl, getpass, os, re, sys, shutil, tarfile, tempfile, time, traceback
-import warnings, logging, glob, resource
+import warnings, logging, glob, resource, errno
 
 from autotest_lib.client.common_lib import error
 from autotest_lib.client.bin import utils
@@ -559,7 +559,7 @@ def _installtest(job, url):
 
     # Bail if the test is already installed
     group_dir = os.path.join(job.testdir, "download", group)
-    if os.path.exists(os.path.join(group_dir, name)):
+    if job.cache and os.path.exists(os.path.join(group_dir, name)):
         return (group, name)
 
     # If the group directory is missing create it and add
@@ -588,8 +588,15 @@ def _installtest(job, url):
     # For this 'sub-object' to be importable via the name
     # 'group.name' we need to provide an __init__.py,
     # so link the main entry point to this.
-    os.symlink(name + '.py', os.path.join(group_dir, name,
-                            '__init__.py'))
+    try:
+        os.symlink(name + '.py', os.path.join(group_dir, name,
+                                              '__init__.py'))
+    except OSError as e:
+        if e.errno == errno.EEXIST:
+            # that's fine, we created it last round
+            pass
+        else:
+            raise
 
     # The test is now installed.
     return (group, name)
